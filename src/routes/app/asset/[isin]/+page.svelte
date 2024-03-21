@@ -31,8 +31,8 @@
 
 <div class="w-full flex justify-center pb-20">
   <Card size="lg" class="p-4 bg-white rounded-lg border border-gray-200 shadow-md">
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl text-black pb-2 overflow-x-auto w-3/5 text-nowrap">{data.name}</h2>
+    <div class="flex justify-between items-center space-x-4">
+      <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{data.name}</h2>
       <ComplianceMeter level={data.compliance}></ComplianceMeter>
     </div>
     <div class="mt-2">

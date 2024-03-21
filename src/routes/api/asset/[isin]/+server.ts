@@ -1,4 +1,4 @@
-import { dates, data } from "$lib/sources/final_final.json";
+import { data, dates } from "$lib/sources/final_final.json";
 import { error, type RequestHandler } from "@sveltejs/kit";
 
 type Params = {
@@ -15,6 +15,6 @@ export const GET = (async ({ params }: { params: Params }) => {
     };
     return new Response(JSON.stringify(outerResponse));
   } else {
-    return new Response(error(404, `Could not find ISIN ${params.isin}`))
+    error(404, `Could not find ISIN ${params.isin}`);
   }
 }) satisfies RequestHandler<Params>;
