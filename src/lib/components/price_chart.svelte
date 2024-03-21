@@ -1,89 +1,127 @@
 <script lang="ts">
+	import { getAssetData, getAssetPrices, getDates } from '$lib/asset';
+	import { complianceColor } from '$lib/colors';
   import { Chart, Card, Button, Dropdown, DropdownItem, Radio } from 'flowbite-svelte';
   import { ChevronDownOutline } from 'flowbite-svelte-icons';
 
-  export let data = [ 6500, 6418, 6456, 6526, 6356, 6456 ];
-  // TODO: use timestamps, and filter dependent on the selected time range
-  export let labels = ['02/01', '02/02', '02/03', '02/04', '02/05', '02/06']
-  export let title: string = 'Price';
-  export let value: number = 6456;
+  const ranges: ({
+    short_desc: string;
+    long_desc: string;
+    number_of_days?: number;
+  })[] = [
+    { short_desc: '1w', long_desc: 'Last Week', number_of_days: 7 },
+    { short_desc: '1m', long_desc: 'Last Month', number_of_days: 30 },
+    { short_desc: '3m', long_desc: 'Last 3 Months', number_of_days: 3 * 30 },
+    { short_desc: '6m', long_desc: 'Last 6 Months', number_of_days: 6 * 30 },
+    { short_desc: '1y', long_desc: 'Last Year' }
+  ];
 
-  let selectedRange: 'Last week' | '30 days' | '90 days' | 'Last year' | 'All time' = 'Last week';
+  export let isins: string | { isin: string, weight: number }[];
+  export let title: string = 'Price';
+  export let tooltip: string = 'Price';
+
+  let selectedRange: 0 | 1 | 2 | 3 | 4 = 0;
   let dropdownOpen = false;
 
-  function handleRangeSelect(event) {
-    console.log('Selected range: ' + event.target.value);
-    dropdownOpen = false;
-  }
+  let price: number;
+  let options: ApexCharts.ApexOptions;
 
-  let options: ApexCharts.ApexOptions = {
-    chart: {
-      height: '250px',
-      width: '100%',
-      type: 'line',
-      fontFamily: 'Inter, sans-serif',
-      dropShadow: {
-        enabled: false
-      },
-      toolbar: {
-        show: false
-      },
-      zoom: {
-        enabled: false
-      }
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      width: 4,
-      curve: 'smooth'
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: -26
-      }
-    },
-    series: [
-      {
-        name: 'Price',
-        data,
-        color: '#7E3AF2'
-      }
-    ],
-    legend: {
-      show: false
-    },
-    xaxis: {
-      categories: labels,
-      labels: {
-        show: false,
-        style: {
-          fontFamily: 'Inter, sans-serif',
-          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+  function updateOptions(isins: string | { isin: string, weight: number }[], tooltip: string, number_of_days: number | undefined) {
+    dropdownOpen = false;
+    
+    let color: string;
+    let isinsWithWeights: { isin: string, weight: number }[];
+    if (typeof isins === 'string') {
+      let { compliance } = getAssetData(isins)!;
+      color = complianceColor(compliance);
+      isinsWithWeights = [{isin: isins, weight: 1 }];
+    } else {
+      color = "#7E3AF2"
+      isinsWithWeights = isins;
+    }
+
+    let array = getAssetPrices(isinsWithWeights.map(({ isin }) => isin));
+    let prices = array[0].map((_, i) => array.map((row, j) => row[i] * isinsWithWeights[j].weight).reduce((a, b) => a + b, 0));
+
+    price = prices[prices.length - 1];
+
+    if (number_of_days) {
+      prices = prices.slice(-number_of_days);
+    }
+
+    options = {
+      chart: {
+        height: '250px',
+        width: '100%',
+        type: 'line',
+        fontFamily: 'Inter, sans-serif',
+        dropShadow: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
+        animations: {
+          enabled: false
         }
       },
-      axisBorder: {
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 4,
+        curve: 'monotoneCubic'
+      },
+      grid: {
+        show: true,
+        strokeDashArray: 4,
+        padding: {
+          left: 2,
+          right: 2,
+          top: -26
+        }
+      },
+      series: [
+        {
+          name: tooltip,
+          data: prices,
+          color: color
+        }
+      ],
+      legend: {
         show: false
       },
-      axisTicks: {
-        show: false
+      xaxis: {
+        categories: getDates(),
+        labels: {
+          show: false
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: (val) => '$' + val.toFixed(2)
+        }
       }
-    },
-    yaxis: {
-      show: true
-    }
-  };
+    };
+  }
+
+  $: updateOptions(isins, tooltip, ranges[selectedRange].number_of_days);
 </script>
 
 <Card>
@@ -91,14 +129,14 @@
     <div class="grid gap-4 grid-cols-2">
       <div>
         <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">{title}</h5>
-        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">${value}</p>
+        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">${price.toFixed(2)}</p>
       </div>
     </div>
     <div>
-      <Button color="light" class="px-3 py-2">{selectedRange}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
+      <Button color="light" class="px-3 py-2">{ranges[selectedRange].short_desc}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
       <Dropdown class="w-40" bind:open={dropdownOpen}>
-        {#each ['Last week', '30 Days', '90 Days', 'Last year', 'All time'] as range}
-          <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} on:change={handleRangeSelect} value={range}>{range}</Radio></DropdownItem>
+        {#each ranges as { long_desc }, index }
+          <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} value={index}>{long_desc}</Radio></DropdownItem>
         {/each}
       </Dropdown>
     </div>
