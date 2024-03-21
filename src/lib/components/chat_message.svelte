@@ -1,13 +1,11 @@
 <script lang="ts">
 	import type { Message } from 'ai';
 	import { FaceExplodeOutline, UserCircleSolid } from 'flowbite-svelte-icons';
+	import { micromark } from 'micromark';
 
-	export let message: Message & {
-		side?: 'left' | 'right';
-	};
+	export let message: Message;
 
 	let name = message.role == 'user' ? 'You' : 'Lina';
-	message.side = message.role == 'user' ? 'right' : 'left';
 	let dir = message.role == 'assistant' ? 'ltr' : 'rtl';
 </script>
 
@@ -23,11 +21,31 @@
 		<div class="flex items-center space-x-2 rtl:space-x-reverse">
 			<span class="text-sm font-semibold text-gray-900 dark:text-white">{name}</span>
 		</div>
-		<p
-			class="py-2.5 text-sm font-normal text-gray-900 dark:text-white text-{message.side} break-words"
-			dir="ltr"
-		>
-			{message.content}
-		</p>
+		{#if message.role === 'user'}
+			<div class="markdown-container text-right" dir="ltr">
+				{@html micromark(message.content)}
+			</div>
+		{:else if message.role === 'assistant'}
+			<div class="markdown-container text-left" dir="ltr">
+				<!-- {@html micromark(message.content)} -->
+				<p>{message.content}</p>
+			</div>
+		{/if}
 	</div>
 </div>
+
+<style>
+	.markdown-container :global(p) {
+		padding-top: 0.625rem;
+		padding-bottom: 0.625rem;
+		font-size: 0.875rem;
+		font-weight: 400;
+		color: #374151;
+		word-wrap: break-word;
+	}
+	@media (prefers-color-scheme: dark) {
+		.markdown-container :global(p) {
+			color: #f3f4f6;
+		}
+	}
+</style>

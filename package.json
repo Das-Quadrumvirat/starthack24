@@ -12,6 +12,9 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@langchain/azure-openai": "^0.0.4",
+    "@langchain/core": "^0.1.49",
+    "@langchain/openai": "^0.0.22",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -19,6 +22,7 @@
     "flowbite": "^2.3.0",
     "flowbite-svelte": "^0.44.24",
     "flowbite-svelte-icons": "^1.4.5",
+    "langchain": "^0.1.28",
     "postcss": "^8.4.32",
     "postcss-load-config": "^5.0.2",
     "prettier": "^3.1.1",
@@ -33,10 +37,12 @@
   },
   "type": "module",
   "dependencies": {
+    "@azure/openai": "1.0.0-beta.11",
     "@sveltejs/adapter-vercel": "^5.2.0",
     "@types/node": "^20.11.30",
-    "@azure/openai": "1.0.0-beta.11",
     "ai": "^3.0.13",
-    "zod": "^3.22.4"
+    "micromark": "^4.0.0",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.22.4"
   }
 }
