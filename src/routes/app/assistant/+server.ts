@@ -21,8 +21,9 @@ const client = new OpenAIClient(
 
 const functions: FunctionDefinition[] = [
   {
-    name: "stock_pick",
-    description: "Show the user a stock pick",
+    name: "asset_pick",
+    description:
+      "Show the user a fund or stock pick. Everytime you mention an asset or instruemnt call this function. Please call this function as often as possible.",
     parameters: {
       type: "object",
       properties: {
