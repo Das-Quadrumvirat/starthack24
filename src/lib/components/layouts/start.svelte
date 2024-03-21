@@ -19,6 +19,6 @@
   {/if}
 </TopBar>
 
-<main class="p-6 pb-2">
+<main class="p-6 pb-2 lg:m-auto lg:max-w-3xl">
   <slot />
 </main>
