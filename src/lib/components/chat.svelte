@@ -1,21 +1,24 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
+	import { browser } from '$app/environment';
 	import ChatMessageBubble from '$lib/components/chat_message.svelte';
 	import ChatTextbox from '$lib/components/chat_textbox.svelte';
 	import { useChat } from 'ai/svelte';
 	import { clientFunctionCallHandler } from '$lib/ai';
-	import { nanoid } from 'ai';
+	import { nanoid, type Message } from 'ai';
 
-  export let bottomPadding: number;
+	export let bottomPadding: number;
+	export let systemPrompt: string;
+	export let assistantConversationStarter: string;
+	export let onFinish: (message: Message) => void = () => {};
+	export let api: string = '/app/assistant';
 
-	const { input, handleSubmit, messages } = useChat({
-		api: '/app/assistant',
+	let { input, handleSubmit, messages } = useChat({
+		api,
 		initialMessages: [
 			{
 				id: nanoid(),
 				role: 'system',
-				content:
-					"You are a personal investment consultand named Lina. You're purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. Use easy language and avoid the pig latin."
+				content: systemPrompt
 			},
 			{
 				id: nanoid(),
@@ -25,22 +28,23 @@
 			{
 				id: nanoid(),
 				role: 'assistant',
-				content: 'How can I help you today?'
+				content: assistantConversationStarter
 			}
 		],
-		experimental_onFunctionCall: clientFunctionCallHandler
+		experimental_onFunctionCall: clientFunctionCallHandler,
+		onFinish
 	});
 
-  $: $messages, scrollToBottom();
+	$: $messages, scrollToBottom();
 
-  function scrollToBottom() {
-    if (browser) { 
-      setTimeout(() => window.scroll({ top: document.body.scrollHeight, behavior: 'smooth' }), 0);
-    }
-  }
+	function scrollToBottom() {
+		if (browser) {
+			setTimeout(() => window.scroll({ top: document.body.scrollHeight, behavior: 'smooth' }), 0);
+		}
+	}
 </script>
 
-<div class={"flex flex-col pb-" + (bottomPadding + 16)}>
+<div class={`pb-${bottomPadding + 16} flex flex-col`}>
 	<div class="flex-1 overflow-auto">
 		{#each $messages as message}
 			{#if message.role !== 'system' && message.content.length > 0}
@@ -50,6 +54,6 @@
 	</div>
 </div>
 
-<div class={"fixed start-0 w-full border-t border-t-gray-300 bottom-" + bottomPadding}>
-  <ChatTextbox {handleSubmit} {input} />
+<div class={`bottom-${bottomPadding} fixed start-0 w-full border-t border-t-gray-300`}>
+	<ChatTextbox {handleSubmit} {input} />
 </div>
