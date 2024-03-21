@@ -16,10 +16,10 @@
     dropdownOpen = false;
   }
 
-  let options = {
+  let options: ApexCharts.ApexOptions = {
     chart: {
-      height: '400px',
-      maxWidth: '100%',
+      height: '250px',
+      width: '100%',
       type: 'line',
       fontFamily: 'Inter, sans-serif',
       dropShadow: {
@@ -27,6 +27,9 @@
       },
       toolbar: {
         show: false
+      },
+      zoom: {
+        enabled: false
       }
     },
     tooltip: {

@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
 	import ChatMessageBubble from '$lib/components/chat_message.svelte';
 	import ChatTextbox from '$lib/components/chat_textbox.svelte';
 	import { useChat } from 'ai/svelte';
 	import { clientFunctionCallHandler } from '$lib/ai';
 	import { nanoid } from 'ai';
+
+  export let bottomPadding: number;
 
 	const { input, handleSubmit, messages } = useChat({
 		api: '/app/assistant',
@@ -27,9 +30,17 @@
 		],
 		experimental_onFunctionCall: clientFunctionCallHandler
 	});
+
+  $: $messages, scrollToBottom();
+
+  function scrollToBottom() {
+    if (browser) { 
+      setTimeout(() => window.scroll({ top: document.body.scrollHeight, behavior: 'smooth' }), 0);
+    }
+  }
 </script>
 
-<div class="flex h-full flex-col">
+<div class={"flex flex-col pb-" + (bottomPadding + 16)}>
 	<div class="flex-1 overflow-auto">
 		{#each $messages as message}
 			{#if message.role !== 'system' && message.content.length > 0}
@@ -37,8 +48,8 @@
 			{/if}
 		{/each}
 	</div>
+</div>
 
-	<div class="border-t border-t-gray-300 pt-2">
-		<ChatTextbox {handleSubmit} {input} />
-	</div>
+<div class={"fixed start-0 w-full border-t border-t-gray-300 bottom-" + bottomPadding}>
+  <ChatTextbox {handleSubmit} {input} />
 </div>

@@ -9,11 +9,12 @@
   ];
 </script>
 
-<h1 class="text-black text-4xl pb-5">Your Portfolio</h1>
+<div class="pb-20">
+  <h1 class="text-black text-4xl pb-5">Your Portfolio</h1>
 
-{#each assets as asset}
-  <div class="pb-4">
-    <AssetPreview {asset}></AssetPreview>
-  </div>
-{/each}
-
+  {#each assets as asset}
+    <div class="pb-4">
+      <AssetPreview {asset}></AssetPreview>
+    </div>
+  {/each}
+</div>
