@@ -8,7 +8,7 @@
   export let title: string = 'Price';
   export let value: number = 6456;
 
-  let selectedRange: '24 Hours' | 'Last week' | '30 days' | '90 days' | 'Last year' | 'All time' = 'Last week';
+  let selectedRange: 'Last week' | '30 days' | '90 days' | 'Last year' | 'All time' = 'Last week';
   let dropdownOpen = false;
 
   function handleRangeSelect(event) {
@@ -94,7 +94,7 @@
     <div>
       <Button color="light" class="px-3 py-2">{selectedRange}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
       <Dropdown class="w-40" bind:open={dropdownOpen}>
-        {#each ['24 Hours', 'Last week', '30 Days', '90 Days', 'Last year', 'All time'] as range}
+        {#each ['Last week', '30 Days', '90 Days', 'Last year', 'All time'] as range}
           <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} on:change={handleRangeSelect} value={range}>{range}</Radio></DropdownItem>
         {/each}
       </Dropdown>
