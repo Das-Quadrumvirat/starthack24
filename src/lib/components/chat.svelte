@@ -3,23 +3,32 @@
 	import ChatMessageBubble from '$lib/components/chat_message.svelte';
 	import ChatTextbox from '$lib/components/chat_textbox.svelte';
 	import { useChat } from 'ai/svelte';
+	import { clientFunctionCallHandler } from '$lib/ai';
+	import { nanoid } from 'ai';
 
   export let bottomPadding: number;
 
 	const { input, handleSubmit, messages } = useChat({
-    api: '/app/assistant',
+		api: '/app/assistant',
 		initialMessages: [
 			{
-				id: '1',
+				id: nanoid(),
+				role: 'system',
+				content:
+					"You are a personal investment consultand named Lina. You're purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. Use easy language and avoid the pig latin."
+			},
+			{
+				id: nanoid(),
 				role: 'assistant',
 				content: 'Hi!'
 			},
 			{
-				id: '2',
+				id: nanoid(),
 				role: 'assistant',
 				content: 'How can I help you today?'
 			}
-		]
+		],
+		experimental_onFunctionCall: clientFunctionCallHandler
 	});
 
   $: $messages, scrollToBottom();
@@ -29,17 +38,18 @@
       setTimeout(() => window.scroll({ top: document.body.scrollHeight, behavior: 'smooth' }), 0);
     }
   }
-
 </script>
 
 <div class={"flex flex-col pb-" + (bottomPadding + 16)}>
 	<div class="flex-1 overflow-auto">
 		{#each $messages as message}
-			<ChatMessageBubble {message} />
+			{#if message.role !== 'system' && message.content.length > 0}
+				<ChatMessageBubble {message} />
+			{/if}
 		{/each}
 	</div>
 </div>
 
 <div class={"fixed start-0 w-full border-t border-t-gray-300 bottom-" + bottomPadding}>
-  <ChatTextbox {handleSubmit} input={input} />
+  <ChatTextbox {handleSubmit} {input} />
 </div>
