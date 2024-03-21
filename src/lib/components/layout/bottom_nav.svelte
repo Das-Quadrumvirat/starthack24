@@ -22,8 +22,8 @@
     <GlobeOutline class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500" />
     <Tooltip arrow={false}>Discover</Tooltip>
   </BottomNavItem>
-  <BottomNavItem href="/app/social" btnName="Profile" appBtnPosition="middle">
+  <BottomNavItem href="/app/social" btnName="Social" appBtnPosition="middle">
     <UserCircleSolid class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500" />
-    <Tooltip arrow={false}>social</Tooltip>
+    <Tooltip arrow={false}>Social</Tooltip>
   </BottomNavItem>
 </BottomNav>
