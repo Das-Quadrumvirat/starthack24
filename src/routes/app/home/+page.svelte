@@ -1,6 +1,6 @@
 <script>
-  import { Skeleton, ImagePlaceholder } from 'flowbite-svelte';
+  import PriceChart from '$lib/components/price_chart.svelte';
 </script>
 
-<Skeleton class="py-4" />
-<ImagePlaceholder class="pb-20" />
+<h1 class="text-5xl pb-5">Home</h1>
+<PriceChart title="Your Balance"/>
