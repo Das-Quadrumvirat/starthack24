@@ -2,14 +2,8 @@
 	import BottomNav from "../layout/bottom_nav.svelte";
 </script>
 
-<style>
-  .container {
-    height: calc(100% - 4rem);
-  }
-</style>
-
-<BottomNav />
-
-<div class="container overflow-auto">
+<div class="pb-20">
   <slot />
 </div>
+
+<BottomNav />
