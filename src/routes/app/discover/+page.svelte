@@ -11,9 +11,11 @@
 
 <h1 class="text-black text-4xl pb-5">Recommended</h1>
 
-{#each assets as asset}
-  <div class="pb-4">
-    <AssetPreview {asset}></AssetPreview>
-  </div>
-{/each}
+<div class="pb-20">
+  {#each assets as asset}
+    <div class="pb-4">
+      <AssetPreview {asset}></AssetPreview>
+    </div>
+  {/each}
+</div>
 

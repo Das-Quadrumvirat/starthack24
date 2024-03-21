@@ -9,7 +9,8 @@
 
 <style>
   main {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 4rem); /* in case the line below doesn't work */
+    height: calc(100dvh - 4rem);
   }
 </style>
 

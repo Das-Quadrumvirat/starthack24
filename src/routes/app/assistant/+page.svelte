@@ -2,4 +2,4 @@
   import Chat from '$lib/components/chat.svelte';
 </script>
 
-<Chat />
+<Chat bottomPadding={16} />
