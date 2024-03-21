@@ -8,20 +8,22 @@
   ]
 </script>
 
-<h5 class="mb-5 text-5xl">Leaderboard</h5>
-<Table striped={true}>
-  <TableHead>
-    <TableHeadCell>Name</TableHeadCell>
-    <TableHeadCell>Returns</TableHeadCell>
-    <TableHeadCell>Moral</TableHeadCell>
-  </TableHead>
-  <TableBody>
-    {#each rows as row}
-    <TableBodyRow>
-      <TableBodyCell>{row.name}</TableBodyCell>
-      <TableBodyCell>{row.returns}%</TableBodyCell>
-      <TableBodyCell>{row.moral}%</TableBodyCell>
-    </TableBodyRow>
-    {/each}
-  </TableBody>
-</Table>
+<div class="pb-20">
+  <h5 class="mb-5 text-5xl">Leaderboard</h5>
+  <Table striped={true}>
+    <TableHead>
+      <TableHeadCell>Name</TableHeadCell>
+      <TableHeadCell>Returns</TableHeadCell>
+      <TableHeadCell>Moral</TableHeadCell>
+    </TableHead>
+    <TableBody>
+      {#each rows as row}
+      <TableBodyRow>
+        <TableBodyCell>{row.name}</TableBodyCell>
+        <TableBodyCell>{row.returns}%</TableBodyCell>
+        <TableBodyCell>{row.moral}%</TableBodyCell>
+      </TableBodyRow>
+      {/each}
+    </TableBody>
+  </Table>
+</div>

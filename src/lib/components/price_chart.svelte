@@ -18,7 +18,7 @@
 
   let options: ApexCharts.ApexOptions = {
     chart: {
-      height: '300px',
+      height: '250px',
       width: '100%',
       type: 'line',
       fontFamily: 'Inter, sans-serif',
