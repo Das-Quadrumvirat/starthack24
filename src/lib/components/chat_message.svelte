@@ -28,7 +28,7 @@
 			<div class="markdown-container text-right" dir="ltr">
 				{@html micromark(message.content)}
 			</div>
-		{:else if message.role === 'function'}
+		{:else if message.role === 'function' && message.name === 'asset_pick'}
 			<StockPick json={message.content} />
 		{:else if message.role === 'assistant'}
 			<div class="markdown-container text-left" dir="ltr">
@@ -49,7 +49,7 @@
 	}
 	/* @media (prefers-color-scheme: dark) {
 		.markdown-container :global(p) {
-			color: #f3f4f6;
+			color: black;
 		}
 	} */
 </style>

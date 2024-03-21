@@ -1,29 +1,38 @@
 <script lang="ts">
-	import { Card } from "flowbite-svelte";
+	import { Card } from 'flowbite-svelte';
 
-  import ComplianceMeter from "$lib/components/compliance_meter.svelte";
-  import PriceChart from "$lib/components/price_chart.svelte";
-  import OrderModal from '$lib/components/OrderModal.svelte';
+	import ComplianceMeter from '$lib/components/compliance_meter.svelte';
+	import PriceChart from '$lib/components/price_chart.svelte';
+	import OrderModal from '$lib/components/OrderModal.svelte';
 
+<<<<<<< HEAD:src/routes/app/asset/[isin]/+page.svelte
   export let data;
+=======
+	let asset: Asset = {
+		id: '1h892ja',
+		name: 'Unicorn horns',
+		compliance: 3,
+		price: 50000
+	};
+>>>>>>> main:src/routes/app/asset/[id]/+page.svelte
 
-  let showBuyModal = false;
-  let showSellModal = false;
+	let showBuyModal = false;
+	let showSellModal = false;
 
-  function handleConfirm(event) {
-    const { action, amount } = event.detail;
-    console.log(`${action} confirmed for amount: ${amount}`);
-    showBuyModal = false;
-    showSellModal = false;
-  }
+	function handleConfirm(event) {
+		const { action, amount } = event.detail;
+		console.log(`${action} confirmed for amount: ${amount}`);
+		showBuyModal = false;
+		showSellModal = false;
+	}
 
-  function buy() {
-    showBuyModal = true;
-  }
+	function buy() {
+		showBuyModal = true;
+	}
 
-  function sell() {
-    showSellModal = true;
-  }
+	function sell() {
+		showSellModal = true;
+	}
 </script>
 
 <OrderModal bind:open={showBuyModal} action="Buy" price={data.price} on:confirm={handleConfirm} />
