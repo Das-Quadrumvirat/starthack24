@@ -10,6 +10,6 @@
 
 <BottomNav />
 
-<div class="container">
+<div class="container overflow-auto">
   <slot />
 </div>
