@@ -9,4 +9,7 @@ type Asset = {
 	name: string;
 	price: number;
 	compliance: 0 | 1 | 2 | 3;
+	sustainability: number;
+	environment: number;
+	social: number;
 };
