@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getAssetData, getAssetPrices, getDates } from '$lib/asset';
 	import { complianceColor } from '$lib/colors';
   import { Chart, Card, Button, Dropdown, DropdownItem, Radio } from 'flowbite-svelte';
   import { ChevronDownOutline } from 'flowbite-svelte-icons';
@@ -15,29 +16,40 @@
     { short_desc: '1y', long_desc: 'Last Year' }
   ];
 
-  export let isin: string;
+  export let isins: string | { isin: string, weight: number }[];
   export let title: string = 'Price';
   export let tooltip: string = 'Price';
 
   let selectedRange: 0 | 1 | 2 | 3 | 4 = 0;
   let dropdownOpen = false;
 
-  $: promise = (async function getOptions(isin: string, tooltip: string, number_of_days: number | undefined): Promise<{
-      price: number,
-      options: ApexCharts.ApexOptions
-    }> {
+  let price: number;
+  let options: ApexCharts.ApexOptions;
+
+  function updateOptions(isins: string | { isin: string, weight: number }[], tooltip: string, number_of_days: number | undefined) {
     dropdownOpen = false;
+    
+    let color: string;
+    let isinsWithWeights: { isin: string, weight: number }[];
+    if (typeof isins === 'string') {
+      let { compliance } = getAssetData(isins)!;
+      color = complianceColor(compliance);
+      isinsWithWeights = [{isin: isins, weight: 1 }];
+    } else {
+      color = "#7E3AF2"
+      isinsWithWeights = isins;
+    }
 
-    const response = await fetch(`/api/asset/${isin}`);
-    const { dates, data } = await response.json();
+    let array = getAssetPrices(isinsWithWeights.map(({ isin }) => isin));
+    let prices = array[0].map((_, i) => array.map((row, j) => row[i] * isinsWithWeights[j].weight).reduce((a, b) => a + b, 0));
 
-    let prices = data.prices;
+    price = prices[prices.length - 1];
 
     if (number_of_days) {
       prices = prices.slice(-number_of_days);
     }
 
-    let options: ApexCharts.ApexOptions = {
+    options = {
       chart: {
         height: '250px',
         width: '100%',
@@ -82,14 +94,14 @@
         {
           name: tooltip,
           data: prices,
-          color: complianceColor(data.compliance)
+          color: color
         }
       ],
       legend: {
         show: false
       },
       xaxis: {
-        categories: dates,
+        categories: getDates(),
         labels: {
           show: false
         },
@@ -107,36 +119,27 @@
         }
       }
     };
+  }
 
-    return {
-      price: prices[prices.length - 1],
-      options
-    };
-  })(isin, tooltip, ranges[selectedRange].number_of_days);
+  $: updateOptions(isins, tooltip, ranges[selectedRange].number_of_days);
 </script>
 
 <Card>
-  {#await promise}
-  <p>Loading...</p>
-  {:then { price, options} }
-    <div class="flex justify-between mb-5">
-      <div class="grid gap-4 grid-cols-2">
-        <div>
-          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">{title}</h5>
-          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{price}</p>
-        </div>
-      </div>
+  <div class="flex justify-between mb-5">
+    <div class="grid gap-4 grid-cols-2">
       <div>
-        <Button color="light" class="px-3 py-2">{ranges[selectedRange].short_desc}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
-        <Dropdown class="w-40" bind:open={dropdownOpen}>
-          {#each ranges as { long_desc }, index }
-            <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} value={index}>{long_desc}</Radio></DropdownItem>
-          {/each}
-        </Dropdown>
+        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">{title}</h5>
+        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">${price.toFixed(2)}</p>
       </div>
     </div>
-    <Chart {options} />
-  {:catch error}
-    <p>Error: {error.message}</p>
-  {/await}
+    <div>
+      <Button color="light" class="px-3 py-2">{ranges[selectedRange].short_desc}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
+      <Dropdown class="w-40" bind:open={dropdownOpen}>
+        {#each ranges as { long_desc }, index }
+          <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} value={index}>{long_desc}</Radio></DropdownItem>
+        {/each}
+      </Dropdown>
+    </div>
+  </div>
+  <Chart {options} />
 </Card>

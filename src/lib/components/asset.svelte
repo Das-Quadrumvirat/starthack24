@@ -55,8 +55,6 @@
       ],
     };
 
-    console.log(options);
-
     return {
       name: data.name,
       price: prices[prices.length - 1],

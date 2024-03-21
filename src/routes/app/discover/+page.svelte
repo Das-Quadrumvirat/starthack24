@@ -1,12 +1,21 @@
 <script lang="ts">
+	import { findBestFund } from '$lib/ai';
   import AssetPreview from '$lib/components/asset.svelte'
+	import { UserDescription } from '$lib/types';
+	import { onMount } from 'svelte';
 
-  let recommended = [
-    'AT0000784756',
-    'AT0000785340',
-    'AT0000801097',
-    'AT0000828553',
-  ]
+  let recommended: string[] = [];
+
+  onMount(() => {
+    try {
+      const userDescriptionStr = localStorage.getItem('user_description');
+      if (!userDescriptionStr) { return; }
+      let description = JSON.parse(userDescriptionStr);
+      recommended = findBestFund(description, 10).map((fund) => fund.isin);
+    } catch (error) {
+      console.error('Failed to load user description', error);
+    }
+  });
 </script>
 
 <h1 class="text-black text-4xl pb-5">Recommended</h1>
