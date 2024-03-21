@@ -16,7 +16,7 @@
       <div class="flex items-center space-x-2 rtl:space-x-reverse">
          <span class="text-sm font-semibold text-gray-900 dark:text-white">{name}</span>
       </div>
-      <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white text-{message.side}" dir="ltr">{message.content}</p>
+      <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white text-{message.side} break-words" dir="ltr">{message.content}</p>
    </div>
 </div>
 
