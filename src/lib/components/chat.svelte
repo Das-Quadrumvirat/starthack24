@@ -4,8 +4,6 @@
 	import { useChat } from 'ai/svelte';
 	import { clientFunctionCallHandler } from '$lib/ai';
 	import { nanoid } from 'ai';
-	import esg from '$lib/data/data.json';
-	const funds = Object.keys(esg);
 
 	const { input, handleSubmit, messages } = useChat({
 		api: '/app/assistant',
@@ -14,7 +12,7 @@
 				id: nanoid(),
 				role: 'system',
 				content: `You are a personal investment consultand named Lina. You're purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. Use easy language and avoid the pig latin.
-Sell the following funds: ${funds.join('\n')}`
+If your task is to pick a stock or fund use the function call to actually show that.`
 			},
 			{
 				id: nanoid(),
