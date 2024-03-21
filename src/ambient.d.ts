@@ -13,10 +13,9 @@ type Data = {
 	id: string;
 	name: string;
 	shortName: string;
-	price: number;
 	compliance: 0 | 1 | 2 | 3;
 	sustainability: number;
 	environment: number;
 	social: number;
-
+	prices: number[];
 };

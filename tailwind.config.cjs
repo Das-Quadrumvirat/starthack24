@@ -4,6 +4,12 @@ const config = {
 		'./src/**/*.{html,js,svelte,ts}',
 		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
 	],
+	safelist: [
+		'bottom-0',
+		'bottom-16',
+		'pb-16',
+		'pb-32'
+	],
 
 	plugins: [require('flowbite/plugin')],
 

@@ -21,7 +21,7 @@
 	>
 		{#if message.role !== 'function'}
 			<div class="flex items-center space-x-2 rtl:space-x-reverse">
-				<span class="text-sm font-semibold text-gray-900 dark:text-white">{name}</span>
+				<span class="text-sm font-semibold text-gray-900">{name}</span>
 			</div>
 		{/if}
 		{#if message.role === 'user'}
@@ -47,9 +47,9 @@
 		color: #374151;
 		word-wrap: break-word;
 	}
-	@media (prefers-color-scheme: dark) {
+	/* @media (prefers-color-scheme: dark) {
 		.markdown-container :global(p) {
 			color: #f3f4f6;
 		}
-	}
+	} */
 </style>

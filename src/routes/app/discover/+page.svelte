@@ -1,21 +1,20 @@
 <script lang="ts">
   import AssetPreview from '$lib/components/asset.svelte'
 
-  let assets: Asset[] = [
-    { id: 'yeet', name: 'yeet omg this name is so long I hate my existence', price: 1337, compliance: 0 },
-    { id: 'doot', name: 'doot', price: 1337, compliance: 1 },
-    { id: 'beep', name: 'beep', price: 1337, compliance: 2 },
-    { id: 'boop', name: 'boop', price: 1337, compliance: 3 },
-  ];
+  let recommended = [
+    'AT0000784756',
+    'AT0000785340',
+    'AT0000801097',
+    'AT0000828553',
+  ]
 </script>
 
 <h1 class="text-black text-4xl pb-5">Recommended</h1>
 
 <div class="pb-20">
-  {#each assets as asset}
+  {#each recommended as isin}
     <div class="pb-4">
-      <AssetPreview {asset}></AssetPreview>
+      <AssetPreview {isin}></AssetPreview>
     </div>
   {/each}
 </div>
-
