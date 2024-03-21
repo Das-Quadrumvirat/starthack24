@@ -2,7 +2,7 @@
   import { FaceExplodeOutline, UserCircleSolid } from 'flowbite-svelte-icons';
   export let message: ChatMessage;
 
-  let name = message.kind == 'user' ? 'You' : 'Luke';
+  let name = message.kind == 'user' ? 'You' : 'Lina';
   let dir = message.side == 'left' ? 'ltr' : 'rtl';
 </script>
 
