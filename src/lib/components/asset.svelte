@@ -78,9 +78,7 @@
   $: bgClass = transparent ? 'bg-transparent' : 'bg-white';
 </script>
 
-{#await promise}
-  <p>Loading...</p>
-{:then { name, price, compliance, options }}
+{#await promise then { name, price, compliance, options }}
   <div class="w-full flex justify-center">
     <Card href="/app/asset/{isin}" size="lg" class={`p-4 rounded-lg border border-gray-200 shadow-md ${borderClass} ${bgClass}`}>
       <div class="flex justify-between items-center space-x-4">
