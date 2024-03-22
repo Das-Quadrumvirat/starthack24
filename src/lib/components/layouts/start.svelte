@@ -1,5 +1,7 @@
 <script>
   import TopBar from "../layout/top_bar.svelte";
+  import { page } from "$app/stores";
+  $: title = $page.data.title;
 </script>
 
 <style>
@@ -9,7 +11,11 @@
   }
 </style>
 
-<TopBar></TopBar>
+<TopBar>
+  {#if title}
+    <h1 class="text-2xl">{title}</h1>
+  {/if}
+</TopBar>
 
 <main class="p-6 pb-2 lg:m-auto lg:max-w-3xl">
   <slot />

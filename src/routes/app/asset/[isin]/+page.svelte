@@ -5,7 +5,7 @@
 	import PriceChart from '$lib/components/price_chart.svelte';
 	import OrderModal from '$lib/components/OrderModal.svelte';
 
-  export let data;
+  	export let data;
 
 	let showBuyModal = false;
 	let showSellModal = false;
@@ -40,7 +40,7 @@
         <button on:click={buy} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Buy</button>
         <button on:click={sell} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-red-600">Sell</button>
       </div>
-      <PriceChart isins={data.id}></PriceChart>
+      <PriceChart border={false} isins={data.id}></PriceChart>
     </div>
   </Card>
 </div>
