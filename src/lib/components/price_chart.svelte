@@ -20,6 +20,7 @@
   export let isins: string | Portfolio
   export let title: string = 'Price';
   export let tooltip: string = 'Price';
+  export let border: boolean = true;
 
   let selectedRange: 0 | 1 | 2 | 3 | 4 = 0;
   let dropdownOpen = false;
@@ -123,24 +124,28 @@
   }
 
   $: updateOptions(isins, tooltip, ranges[selectedRange].number_of_days);
+
+  $: borderClass = border ? '' : 'border-none shadow-none';
 </script>
 
-<Card>
-  <div class="flex justify-between mb-5">
-    <div class="grid gap-4 grid-cols-2">
+<div class="flex w-full justify-center">
+  <Card class={borderClass}>
+    <div class="flex justify-between mb-5">
+      <div class="grid gap-4 grid-cols-2">
+        <div>
+          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">{title}</h5>
+          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">${price.toFixed(2)}</p>
+        </div>
+      </div>
       <div>
-        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">{title}</h5>
-        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">${price.toFixed(2)}</p>
+        <Button color="light" class="px-3 py-2">{ranges[selectedRange].short_desc}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
+        <Dropdown class="w-40" bind:open={dropdownOpen}>
+          {#each ranges as { long_desc }, index }
+            <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} value={index}>{long_desc}</Radio></DropdownItem>
+          {/each}
+        </Dropdown>
       </div>
     </div>
-    <div>
-      <Button color="light" class="px-3 py-2">{ranges[selectedRange].short_desc}<ChevronDownOutline class="w-2.5 h-2.5 ms-1.5" /></Button>
-      <Dropdown class="w-40" bind:open={dropdownOpen}>
-        {#each ranges as { long_desc }, index }
-          <DropdownItem><Radio name="selectedRange" bind:group={selectedRange} value={index}>{long_desc}</Radio></DropdownItem>
-        {/each}
-      </Dropdown>
-    </div>
-  </div>
-  <Chart {options} />
-</Card>
+    <Chart {options} />
+  </Card>
+</div>
