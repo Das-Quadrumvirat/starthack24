@@ -9,7 +9,7 @@ export async function load({ fetch, params }) {
     let { data } = await response.json();
 
     return {
-        isin: params.isin,
+        id: params.isin,
         name: data.name,
         price: data.prices[data.prices.length - 1],
         compliance: data.compliance

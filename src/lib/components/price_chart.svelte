@@ -3,6 +3,7 @@
 	import { complianceColor } from '$lib/colors';
   import { Chart, Card, Button, Dropdown, DropdownItem, Radio } from 'flowbite-svelte';
   import { ChevronDownOutline } from 'flowbite-svelte-icons';
+	import type { Portfolio } from '../../ambient';
 
   const ranges: ({
     short_desc: string;
@@ -16,7 +17,7 @@
     { short_desc: '1y', long_desc: 'Last Year' }
   ];
 
-  export let isins: string | { isin: string, weight: number }[];
+  export let isins: string | Portfolio
   export let title: string = 'Price';
   export let tooltip: string = 'Price';
 
@@ -26,22 +27,22 @@
   let price: number;
   let options: ApexCharts.ApexOptions;
 
-  function updateOptions(isins: string | { isin: string, weight: number }[], tooltip: string, number_of_days: number | undefined) {
+  function updateOptions(isins: string | Portfolio, tooltip: string, number_of_days: number | undefined) {
     dropdownOpen = false;
-    
+
     let color: string;
-    let isinsWithWeights: { isin: string, weight: number }[];
+    let isinsWithAmounts: Portfolio;
     if (typeof isins === 'string') {
       let { compliance } = getAssetData(isins)!;
       color = complianceColor(compliance);
-      isinsWithWeights = [{isin: isins, weight: 1 }];
+      isinsWithAmounts = [{id: isins, amount: 1 }];
     } else {
       color = "#7E3AF2"
-      isinsWithWeights = isins;
+      isinsWithAmounts = isins;
     }
 
-    let array = getAssetPrices(isinsWithWeights.map(({ isin }) => isin));
-    let prices = array[0].map((_, i) => array.map((row, j) => row[i] * isinsWithWeights[j].weight).reduce((a, b) => a + b, 0));
+    let array = getAssetPrices(isinsWithAmounts.map(({ id }) => id));
+    let prices = array[0].map((_, i) => array.map((row, j) => row[i] * isinsWithAmounts[j]?.amount || 0).reduce((a, b) => a + b, 0));
 
     price = prices[prices.length - 1];
 
