@@ -26,7 +26,7 @@ Ask them what is important for them. The categories are:
 - Environmental
 - Social
 Take notes on the user at the very end. End the conversation with taking the notes and then giving two sentences relating to the content of the conversation and that you hope the user will enjoy the app. You should exchange under 15 messages.`;
-	const assistantConversationStarter = 'Please tell me about yourself :)';
+	const assistantConversationStarter = 'Please tell me a bit about yourself to get you started :)';
 
 	function handleMessage(message: Message) {
 		console.log(message);
