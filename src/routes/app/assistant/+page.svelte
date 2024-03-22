@@ -4,10 +4,10 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { UserDescription } from '$lib/types';
-	import { getAllAssetData } from '$lib/asset';
+  	import data from '$lib/sources/data.json';
   	import { fallbackUserDescription } from '$lib/util';
 
-	let funds = getAllAssetData().map(({ name, ISIN }) => `${name} (${ISIN})`).join(', ');
+	let funds = data.map(({ name, isin }) => `${name} (${isin})`).join(', ');
 
 	let systemPrompt = `You are a personal investment consultant named Lina. Your purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. You can only recommend funds from the following list: ${funds}. Use easy language and avoid the pig latin.
 If your task is to pick a stock or fund use the function call to actually show that. Every time you mention a stock or fund, use the function call to show it. It is absolutely crucial that you do this.`;
