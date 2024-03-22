@@ -24,12 +24,7 @@
 			{
 				id: nanoid(),
 				role: 'assistant',
-				content: 'Hi!'
-			},
-			{
-				id: nanoid(),
-				role: 'assistant',
-				content: assistantConversationStarter
+				content: `Hi!\n\n${assistantConversationStarter}`
 			}
 		],
 		experimental_onFunctionCall: clientFunctionCallHandler,
