@@ -1,6 +1,13 @@
 <script>
   import { Heading, P, Button } from 'flowbite-svelte';
   import { ArrowRightOutline } from 'flowbite-svelte-icons';
+
+  import { onMount } from 'svelte';
+  import { browser } from '$app/environment'
+
+  onMount(() => {
+    if (browser && localStorage['user_description']) window.location.assign("/app/home")
+  })
 </script>
 
 <div class="text-center">

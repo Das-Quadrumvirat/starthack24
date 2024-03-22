@@ -2,7 +2,13 @@
 	import type { Message } from 'ai/svelte';
 	import { UserDescription } from '$lib/types';
 	import Chat from '$lib/components/chat.svelte';
-	import { onMount } from 'svelte';
+
+  import { onMount } from 'svelte';
+  import { browser } from '$app/environment'
+
+  onMount(() => {
+    if (browser && localStorage['user_description']) window.location.assign("/app/home")
+  })
 
 	let chatting = true;
 
