@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Heading, P, Button } from 'flowbite-svelte';
+  import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import type { Message } from 'ai/svelte';
 	import { UserDescription } from '$lib/types';
 	import Chat from '$lib/components/chat.svelte';
@@ -67,6 +69,13 @@ Take notes on the user at the very end. End the conversation with taking the not
 		api={'/api/onboarding'}
 	/>
 {:else}
-	<p>I think we are done here! Let's get started picking some funds for you!!</p>
-	<button on:click={resetPreferences}>Reset Preferences</button>
+  <img src="/favicon.png" class="h-32 mx-auto mb-4" alt="EcoVest Logo" />
+  <Heading tag="h1" class="mb-4 text-center" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl">You are ready to go!</Heading>
+  <P class="p-4 mb-6 text-center text-lg lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">I think we are done here, let's get started with investing!!</P>
+  <div class="flex justify-center">
+    <Button href="/app/home">
+      Go
+      <ArrowRightOutline class="w-3.5 h-3.5 ms-2" />
+    </Button>
+  </div>
 {/if}

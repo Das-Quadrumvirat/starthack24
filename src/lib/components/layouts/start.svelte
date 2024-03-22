@@ -1,10 +1,5 @@
 <script>
   import TopBar from "../layout/top_bar.svelte";
-
-  import { page } from "$app/stores";
-
-  let onboarding = false
-  $: onboarding = !$page.url.pathname.startsWith('/app')
 </script>
 
 <style>
@@ -14,11 +9,7 @@
   }
 </style>
 
-<TopBar>
-  {#if onboarding}
-    <a href="/app/home">Skip</a>
-  {/if}
-</TopBar>
+<TopBar></TopBar>
 
 <main class="p-6 pb-2 lg:m-auto lg:max-w-3xl">
   <slot />
