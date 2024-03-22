@@ -1,6 +1,6 @@
 import { dates, data } from "./sources/final_final.json";
 
-type AssetData = {
+export type AssetData = {
 	name: string;
 	compliance: 0 | 1 | 2 | 3;
 	sustainability: number;

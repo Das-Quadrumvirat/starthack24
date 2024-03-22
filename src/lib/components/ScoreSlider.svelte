@@ -3,13 +3,13 @@
 	export let name = 'Social score';
 </script>
 
-<div class="flex w-full justify-center" style="--percentage:{value * 100}%">
+<div class="flex w-full justify-center" style="--percentage:{3 + (value * 94)}%">
 	<div class="flex w-full max-w-sm flex-col">
 	<p class="align-left mb-2">
 		{name}
 	</p>
 	<span class="relative mb-6 slider h-4 w-full rounded-full">
-		<input class="bg-gray-600 scale-y-[175%] rounded-full w-1.5 ml-[-0.75rem] left_adaptive absolute h-full top-0">
+		<input class="bg-gray-600 scale-y-[175%] rounded-full w-1.5 ml-[-0.1875rem] left_adaptive absolute h-full top-0">
 	</span>
 	</div>
 </div>

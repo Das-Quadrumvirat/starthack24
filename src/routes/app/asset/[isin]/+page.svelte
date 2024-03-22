@@ -4,6 +4,7 @@
 	import ComplianceMeter from '$lib/components/compliance_meter.svelte';
 	import PriceChart from '$lib/components/price_chart.svelte';
 	import OrderModal from '$lib/components/OrderModal.svelte';
+	import EcoSliders from '$lib/components/EcoSliders.svelte';
 
   	export let data;
 
@@ -40,6 +41,7 @@
         <button on:click={buy} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Buy</button>
         <button on:click={sell} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-red-600">Sell</button>
       </div>
+      <EcoSliders portfolio={data.id}></EcoSliders>
       <PriceChart border={false} isins={data.id}></PriceChart>
     </div>
   </Card>
