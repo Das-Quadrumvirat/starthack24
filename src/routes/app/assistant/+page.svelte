@@ -4,9 +4,12 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { UserDescription } from '$lib/types';
+	import { getAllAssetData } from '$lib/asset';
 
-	let systemPrompt = `You are a personal investment consultand named Lina. You're purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. Use easy language and avoid the pig latin.
-If your task is to pick a stock or fund use the function call to actually show that. Every time you mention a stock of fund, use the function call to show it. It is absolutely crucial that you do this.`;
+	let funds = getAllAssetData().map(({ name, ISIN }) => `${name} (${ISIN})`).join(', ');
+
+	let systemPrompt = `You are a personal investment consultant named Lina. Your purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. You can only recommend funds from the following list: ${funds}. Use easy language and avoid the pig latin.
+If your task is to pick a stock or fund use the function call to actually show that. Every time you mention a stock or fund, use the function call to show it. It is absolutely crucial that you do this.`;
 	let chatPromise: Promise<string> = new Promise(() => {});
 
 	onMount(() => {
@@ -25,7 +28,7 @@ Profession: ${userDescriptionRich.profession}
 Age: ${userDescriptionRich.age}
 Risk Aversion: ${userDescriptionRich.riskAversion}
 Investment Horizon: ${userDescriptionRich.investmentHorizon}
-Investment Amount: ${userDescriptionRich.investmentAmount} CHF
+Investment Amount: $${userDescriptionRich.investmentAmount}
 Compliance (low to high 0-3): ${userDescriptionRich.compliance}
 Compliance Description: ${userDescriptionRich.complianceDescription}
 Sustainability (low to high 0-1): ${userDescriptionRich.sustainability}

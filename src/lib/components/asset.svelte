@@ -80,17 +80,17 @@
 
 {#await promise}
   <p>Loading...</p>
-{:then { price, compliance, options }}
+{:then { name, price, compliance, options }}
   <div class="w-full flex justify-center">
     <Card href="/app/asset/{isin}" size="lg" class={`p-4 rounded-lg border border-gray-200 shadow-md ${borderClass} ${bgClass}`}>
       <div class="flex justify-between items-center space-x-4">
-        <h2 class="text-xl text-black pb-2 overflow-x-auto grow text-nowrap">{isin}</h2>
+        <h2 class="text-xl text-black pb-2 overflow-x-auto grow text-nowrap">{name}</h2>
         <ComplianceMeter level={compliance}></ComplianceMeter>
       </div>
       <div class="mt-2">
         <div class="flex justify-between">
           <p class="text-gray-700 text-sm">{#if $portfolioEntry.amount > 0}You own {$portfolioEntry.amount}{/if}</p>
-          <p class="text-gray-700 text-sm">${price}</p>
+          <p class="text-gray-700 text-sm">${price.toFixed(2)}</p>
         </div>
         <Chart {options}></Chart>
       </div>

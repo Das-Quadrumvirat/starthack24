@@ -26,13 +26,13 @@
 	}
 </script>
 
-<OrderModal bind:open={showBuyModal} data={data} action="Buy" on:confirm={handleConfirm} />
-<OrderModal bind:open={showSellModal} data={data} action="Sell" on:confirm={handleConfirm} />
+<OrderModal bind:open={showBuyModal} {data} action="Buy" on:confirm={handleConfirm} />
+<OrderModal bind:open={showSellModal} {data} action="Sell" on:confirm={handleConfirm} />
 
 <div class="w-full flex justify-center pb-20">
   <Card size="lg" class="p-4 bg-white rounded-lg border border-gray-200 shadow-md">
     <div class="flex justify-between items-center space-x-4">
-      <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{data.id}</h2>
+      <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{data.name}</h2>
       <ComplianceMeter level={data.compliance}></ComplianceMeter>
     </div>
     <div class="mt-2">
