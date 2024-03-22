@@ -2,12 +2,13 @@
 	import { findBestFund } from '$lib/ai';
   import AssetPreview from '$lib/components/asset.svelte'
 	import { onMount } from 'svelte';
+  import { fallbackUserDescription } from '$lib/util';
 
   let recommended: string[] = [];
 
   onMount(() => {
     try {
-      const userDescriptionStr = localStorage.getItem('user_description');
+      const userDescriptionStr = localStorage.getItem('user_description') || JSON.stringify(fallbackUserDescription);
       if (!userDescriptionStr) { return; }
       let description = JSON.parse(userDescriptionStr);
       console.log('User description', description);

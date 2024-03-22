@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { UserDescription } from '$lib/types';
+  import { fallbackUserDescription } from '$lib/util';
 
 	let systemPrompt = `You are a personal investment consultand named Lina. You're purpose is to help unexperienced people make sensible investment decisions. The users you are interacting with are primarily young adults earning their first money and wanting to invest it. Recommend primarily funds. Use easy language and avoid the pig latin.
 If your task is to pick a stock or fund use the function call to actually show that. Every time you mention a stock of fund, use the function call to show it. It is absolutely crucial that you do this.`;
@@ -11,7 +12,7 @@ If your task is to pick a stock or fund use the function call to actually show t
 
 	onMount(() => {
 		if (browser) {
-			const userDescription = localStorage.getItem('user_description');
+			const userDescription = localStorage.getItem('user_description') || JSON.stringify(fallbackUserDescription)
 			if (!userDescription) {
 				return;
 			}
