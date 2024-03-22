@@ -73,7 +73,7 @@
   <div class="w-full flex justify-center">
     <Card href="/app/asset/{isin}" size="lg" class="p-4 bg-white rounded-lg border border-gray-200 shadow-md">
       <div class="flex justify-between items-center space-x-4">
-        <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{name}</h2>
+        <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{isin}</h2>
         <ComplianceMeter level={compliance}></ComplianceMeter>
       </div>
       <div class="mt-2">
