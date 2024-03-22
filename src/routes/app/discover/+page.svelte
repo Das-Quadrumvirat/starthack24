@@ -5,6 +5,7 @@
   import { Search } from 'flowbite-svelte';
   import FuzzySearch from 'fuzzy-search';
   import data from '$lib/sources/data.json';
+  import { fallbackUserDescription } from '$lib/util';
 
   const searchData = Object.values(data).map(({ name, isin }) => ({ name: name, isin: isin }));
   const searcher = new FuzzySearch(searchData, ['name', 'isin'], {
@@ -18,7 +19,7 @@
 
   onMount(() => {
     try {
-      const userDescriptionStr = localStorage.getItem('user_description');
+      const userDescriptionStr = localStorage.getItem('user_description') || JSON.stringify(fallbackUserDescription);
       if (!userDescriptionStr) { return; }
       let description = JSON.parse(userDescriptionStr);
       console.log('User description', description);

@@ -5,6 +5,7 @@
 	import { useChat } from 'ai/svelte';
 	import { clientFunctionCallHandler } from '$lib/ai';
 	import { nanoid, type Message } from 'ai';
+	import ChatLoader from './chat_loader.svelte';
 
 	export let bottomPadding: number;
 	export let systemPrompt: string;
@@ -12,7 +13,7 @@
 	export let onFinish: (message: Message) => void = () => {};
 	export let api: string = '/app/assistant';
 
-	let { input, handleSubmit, messages } = useChat({
+	let { input, handleSubmit, messages, isLoading } = useChat({
 		api,
 		initialMessages: [
 			{
@@ -51,6 +52,9 @@
 				<ChatMessageBubble {message} />
 			{/if}
 		{/each}
+    {#if $isLoading}
+      <ChatLoader />
+    {/if}
 	</div>
 </div>
 

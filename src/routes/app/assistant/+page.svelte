@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { UserDescription } from '$lib/types';
 	import { getAllAssetData } from '$lib/asset';
+  	import { fallbackUserDescription } from '$lib/util';
 
 	let funds = getAllAssetData().map(({ name, ISIN }) => `${name} (${ISIN})`).join(', ');
 
@@ -14,7 +15,7 @@ If your task is to pick a stock or fund use the function call to actually show t
 
 	onMount(() => {
 		if (browser) {
-			const userDescription = localStorage.getItem('user_description');
+			const userDescription = localStorage.getItem('user_description') || JSON.stringify(fallbackUserDescription)
 			if (!userDescription) {
 				return;
 			}
