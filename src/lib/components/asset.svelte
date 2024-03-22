@@ -27,7 +27,7 @@
       chart: {
         height: '40px',
         width: '100%',
-        type: 'line',
+        type: 'area',
         dropShadow: {
           enabled: false
         },
@@ -58,6 +58,12 @@
           color: complianceColor(data.compliance)
         }
       ],
+      fill: {
+        gradient: {
+          opacityFrom: 0.7,
+          opacityTo: 0
+        }
+      }
     };
 
     return {

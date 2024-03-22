@@ -55,7 +55,7 @@
       chart: {
         height: '250px',
         width: '100%',
-        type: 'line',
+        type: 'area',
         fontFamily: 'Inter, sans-serif',
         dropShadow: {
           enabled: false
@@ -78,6 +78,12 @@
       },
       dataLabels: {
         enabled: false
+      },
+      fill: {
+        gradient: {
+          opacityFrom: 0.7,
+          opacityTo: 0
+        }
       },
       stroke: {
         width: 4,
