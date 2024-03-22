@@ -9,6 +9,7 @@ import type { RequestHandler } from "./$types";
 import type { Message as VercelChatMessage } from "ai";
 import esg from "$lib/data/data.json";
 import { findBestFund } from "$lib/ai";
+import { getAssetData } from "$lib/asset";
 
 export const config = {
   runtime: "edge",
@@ -112,7 +113,17 @@ export const POST: RequestHandler = async ({ request }) => {
       createFunctionCallMessages,
     ) => {
       console.log(name, args);
-      if (name === "esg_data") {
+      if (name === "stock_price") {
+        const isin = args.isin;
+        const data = { price: getAssetData(isin)?.prices.slice(-1)[0] };
+        const newMessages = createFunctionCallMessages(data);
+        return client.streamChatCompletions("gpt-4-turbo", [
+          ...messages,
+          ...newMessages,
+        ], {
+          functions,
+        });
+      } else if (name === "esg_data") {
         const isin = args.isin;
         const data = esg[isin];
         const newMessages = createFunctionCallMessages(data);

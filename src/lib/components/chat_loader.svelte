@@ -1,61 +1,78 @@
-<style>/* Container for the loader */
-.loader {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  height: 4em;
-  /* width:  /em; */
-  margin-left: 3rem;
-}
-
-/* Circle elements */
-.circle {
-  width: 0.5em;
-  height: 0.5em;
-  margin: 0 0.125em;
-  border-radius: 50%;
-  background-color: #111;
-  animation: wave 1s infinite ease-in-out;
-  transition: background-color 0.3s ease;
-}
-
-/* Animation */
-@keyframes wave {
-  0%, 100% {
-    transform: translateY(0);
+<style>
+  .loader {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 4em;
+    /* width:  /em; */
+    margin-left: 3rem;
   }
 
-  50% {
-    transform: translateY(-0.5rem);
+  .circle {
+    width: 0.5em;
+    height: 0.5em;
+    margin: 0 0.125em;
+    border-radius: 50%;
+    background-color: #B0B0B0;
   }
-}
 
-/* Delay for each circle */
-.circle:nth-child(1) {
-  animation-delay: 0s;
-}
+  @keyframes loader1 {
+    0%, 100% {
+      background-color: #B0B0B0;
+    }
 
-.circle:nth-child(2) {
-  animation-delay: 0.2s;
-}
+    30% {
+      background-color: #303030;
+    }
 
-.circle:nth-child(3) {
-  animation-delay: 0.4s;
-}
+    99% {
+      background-color: #303030;
+    }
+  }
 
-.circle:nth-child(4) {
-  animation-delay: 0.6s;
-}
+  @keyframes loader2 {
+    0%, 30%, 100% {
+      background-color: #B0B0B0;
+    }
 
-.circle:nth-child(5) {
-  animation-delay: 0.8s;
-}
-  </style>
+    60% {
+      background-color: #303030;
+    }
+
+    99% {
+      background-color: #303030;
+    }
+  }
+
+  @keyframes loader3 {
+    0%, 60%, 100% {
+      background-color: #B0B0B0;
+    }
+
+    90% {
+      background-color: #303030;
+    }
+
+    99% {
+      background-color: #303030;
+    }
+  }
+
+  .circle:nth-child(1) {
+    animation: loader1 2s infinite ease-in;
+  }
+
+  .circle:nth-child(2) {
+    animation: loader2 2s infinite ease-in;
+  }
+
+  .circle:nth-child(3) {
+    animation: loader3 2s infinite ease-in;
+  }
+</style>
 
 <div class="loader">
-  <div class="circle" tabindex="0"></div>
-  <div class="circle" tabindex="0"></div>
-  <div class="circle" tabindex="0"></div>
-  <div class="circle" tabindex="0"></div>
-  <div class="circle" tabindex="0"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
 </div>
