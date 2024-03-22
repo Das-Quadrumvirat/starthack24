@@ -59,15 +59,15 @@
   }
 
   .circle:nth-child(1) {
-    animation: loader1 2s infinite ease-in;
+    animation: loader1 1.5s infinite ease-in;
   }
 
   .circle:nth-child(2) {
-    animation: loader2 2s infinite ease-in;
+    animation: loader2 1.5s infinite ease-in;
   }
 
   .circle:nth-child(3) {
-    animation: loader3 2s infinite ease-in;
+    animation: loader3 1.5s infinite ease-in;
   }
 </style>
 
