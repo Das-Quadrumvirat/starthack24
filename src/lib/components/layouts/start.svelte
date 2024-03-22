@@ -3,8 +3,8 @@
 
   import { page } from "$app/stores";
 
-  let onboarding = false
-  $: onboarding = !$page.url.pathname.startsWith('/app')
+  $: onboarding = $page.data.isOnboarding;
+  $: title = $page.data.title;
 </script>
 
 <style>
@@ -15,8 +15,11 @@
 </style>
 
 <TopBar>
+  {#if title}
+    <h1 class="text-2xl">{title}</h1>
+  {/if}
   {#if onboarding}
-    <a href="/app/home">Skip</a>
+    <a href="/app/home" class="text-2xl">Skip</a>
   {/if}
 </TopBar>
 

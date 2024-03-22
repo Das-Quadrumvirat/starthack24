@@ -3,6 +3,7 @@
 	import { FaceExplodeOutline, UserCircleSolid } from 'flowbite-svelte-icons';
 	import { micromark } from 'micromark';
 	import StockPick from '$lib/components/StockPick.svelte';
+  import AssetPreview from '$lib/components/asset.svelte'
 
 	export let message: Message;
 
@@ -18,6 +19,7 @@
 	{/if}
 	<div
 		class="leading-1.5 flex w-full max-w-[320px] flex-col rounded-e-xl rounded-es-xl border-gray-200 bg-gray-100 p-4 dark:bg-gray-700"
+		dir="ltr"
 	>
 		{#if message.role !== 'function'}
 			<div class="flex items-center space-x-2 rtl:space-x-reverse">
@@ -28,8 +30,8 @@
 			<div class="markdown-container text-right" dir="ltr">
 				{@html micromark(message.content)}
 			</div>
-		{:else if message.role === 'function' && message.name === 'asset_pick'}
-			<StockPick json={message.content} />
+		{:else if message.role === 'function' && message.name === 'asset_pick'}	
+			<AssetPreview isin={JSON.parse(message.content).isin} border={false} transparent={true}></AssetPreview>
 		{:else if message.role === 'assistant'}
 			<div class="markdown-container text-left" dir="ltr">
 				{@html micromark(message.content)}

@@ -1,12 +1,12 @@
 export function complianceColor(compliance: 0 | 1 | 2 | 3) {
     switch (compliance) {
         case 0:
-            return "#FF0000";
+            return "#FF5000";
         case 1:
-            return "#FF8000";
+            return "#FFD000";
         case 2:
-            return "#FFC000";
+            return "#70FF00";
         case 3:
-            return "#00FF00";
+            return "#00D050";
     }
 }

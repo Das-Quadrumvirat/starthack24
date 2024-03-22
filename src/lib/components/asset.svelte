@@ -5,6 +5,8 @@
 	import { complianceColor } from "$lib/colors";
 
   export let isin: string;
+  export let border = true;
+  export let transparent = false;
 
   $: promise = (async function getOptions(isin: string): Promise<{
       name: string,
@@ -62,15 +64,18 @@
       options
     };
   })(isin);
+
+  $: borderClass = border ? '' : 'border-none shadow-none';
+  $: bgClass = transparent ? 'bg-transparent' : 'bg-white';
 </script>
 
 {#await promise}
   <p>Loading...</p>
 {:then { name, price, compliance, options }}
   <div class="w-full flex justify-center">
-    <Card href="/app/asset/{isin}" size="lg" class="p-4 bg-white rounded-lg border border-gray-200 shadow-md">
+    <Card href="/app/asset/{isin}" size="lg" class={`p-4 rounded-lg border border-gray-200 shadow-md ${borderClass} ${bgClass}`}>
       <div class="flex justify-between items-center space-x-4">
-        <h2 class="text-2xl text-black pb-2 overflow-x-auto grow text-nowrap">{name}</h2>
+        <h2 class="text-xl text-black pb-2 overflow-x-auto grow text-nowrap">{name}</h2>
         <ComplianceMeter level={compliance}></ComplianceMeter>
       </div>
       <div class="mt-2">
