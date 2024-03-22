@@ -1,14 +1,38 @@
 <script lang="ts">
 	import { Modal } from 'flowbite-svelte';
   import { createEventDispatcher } from 'svelte';
-  export let action = '';
-  export let price = 0;
+  import { getPortfolioEntry, tradeAssets } from '$lib/portfolio';
+
+  export let action: 'Buy' | 'Sell' = 'Buy';
+  export let data: { id: string, name: string, price: number }
   export let open = false;
+
+  let price = data.price;
   let amount = '';
   const dispatch = createEventDispatcher();
 
+  function warn(message: string) {
+    alert(message);
+  }
+
+  let portfolioEntry = getPortfolioEntry(data.id);
+
   function confirmOrder() {
-    dispatch('confirm', { action, amount });
+    let count: number = +amount;
+    if (isNaN(count) || count <= 0) {
+      warn('Invalid amount');
+      return;
+    }
+
+    if (action === 'Sell' && count > $portfolioEntry.amount) {
+      warn('Not enough shares to sell.');
+      return;
+    }
+    if (action === 'Sell') count = -count;
+
+    tradeAssets(data.id, count);
+
+    dispatch('confirm', { action, amount: count });
     amount = '';
   }
 
@@ -19,13 +43,11 @@
   }
 </script>
 
-<Modal title="Order" bind:open={open} autoclose>
-  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-      <h3 class="text-lg font-semibold">{action} Order</h3>
-      <p class="py-4">Price: ${price}</p>
-      <input type="number" on:keydown={keyDown} bind:value={amount} class="w-full px-3 py-2 border rounded" placeholder="Amount" />
-      <button on:click={confirmOrder} class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Confirm</button>
-    </div>
+<Modal title="{action} Order" bind:open={open} autoclose>
+  <div class="flex justify-between">
+    <p class="py-4">You own {$portfolioEntry.amount}</p>
+    <p class="py-4">Price: ${price}</p>
   </div>
+  <input type="number" on:keydown={keyDown} bind:value={amount} min="0" max={action === 'Buy' ? '999999' : $portfolioEntry.amount} class="w-full px-3 py-2 border rounded" placeholder="Amount" />
+  <button on:click={confirmOrder} class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Confirm</button>
 </Modal>

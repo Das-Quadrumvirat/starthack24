@@ -26,8 +26,8 @@
 	}
 </script>
 
-<OrderModal bind:open={showBuyModal} action="Buy" price={data.price} on:confirm={handleConfirm} />
-<OrderModal bind:open={showSellModal} action="Sell" price={data.price} on:confirm={handleConfirm} />
+<OrderModal bind:open={showBuyModal} data={data} action="Buy" on:confirm={handleConfirm} />
+<OrderModal bind:open={showSellModal} data={data} action="Sell" on:confirm={handleConfirm} />
 
 <div class="w-full flex justify-center pb-20">
   <Card size="lg" class="p-4 bg-white rounded-lg border border-gray-200 shadow-md">
@@ -40,7 +40,7 @@
         <button on:click={buy} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Buy</button>
         <button on:click={sell} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-red-600">Sell</button>
       </div>
-      <PriceChart isins={data.isin}></PriceChart>
+      <PriceChart isins={data.id}></PriceChart>
     </div>
   </Card>
 </div>

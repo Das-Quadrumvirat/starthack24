@@ -3,8 +3,11 @@
 
   import ComplianceMeter from "$lib/components/compliance_meter.svelte";
 	import { complianceColor } from "$lib/colors";
+	import { getPortfolioEntry } from "$lib/portfolio";
 
   export let isin: string;
+
+  let portfolioEntry = getPortfolioEntry(isin);
 
   $: promise = (async function getOptions(isin: string): Promise<{
       name: string,
@@ -74,7 +77,10 @@
         <ComplianceMeter level={compliance}></ComplianceMeter>
       </div>
       <div class="mt-2">
-        <p class="text-gray-700 text-sm">${price}</p>
+        <div class="flex justify-between">
+          <p class="text-gray-700 text-sm">{#if $portfolioEntry.amount > 0}You own {$portfolioEntry.amount}{/if}</p>
+          <p class="text-gray-700 text-sm">${price}</p>
+        </div>
         <Chart {options}></Chart>
       </div>
     </Card>

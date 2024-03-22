@@ -6,19 +6,20 @@ type AssetData = {
 	sustainability: number;
 	environment: number;
 	social: number;
-    ISIN: string;
+  ISIN: string;
 	shortName: string;
-    prices: number[];
+  prices: number[];
 }
 
 export function getDates(): string[] {
-    return dates;
+  return dates;
 }
 
 export function getAssetData(isin: string): AssetData | undefined {
-    return data[isin];
+  return data[isin];
 }
 
 export function getAssetPrices(isins: string[]): number[][] {
-    return isins.map(isin => data[isin].prices);
+  if (isins.length <= 0) return [Array(1000).fill(0)];
+  return isins.map(isin => data[isin]?.prices || Array(1000).fill(0));
 }

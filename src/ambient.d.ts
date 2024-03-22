@@ -19,3 +19,10 @@ type Data = {
 	social: number;
 	prices: number[];
 };
+
+export type PortfolioEntry = {
+	id: string;
+	amount: number;
+};
+
+export type Portfolio = PortfolioEntry[];
